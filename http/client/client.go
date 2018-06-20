@@ -50,7 +50,7 @@ func (h *HTTPClient) Get(url string, values url.Values) (body []byte, err error)
 		return
 	}
 	for k, v := range *h.Header {
-		req.Header.Add(k, v)
+		req.Header.Set(k, v)
 	}
 	httpclient := &http.Client{
 		Timeout: h.Timeout,
@@ -69,7 +69,7 @@ func (h *HTTPClient) Post(url string, values url.Values) (body []byte, err error
 		return
 	}
 	for k, v := range *h.Header {
-		req.Header.Add(k, v)
+		req.Header.Set(k, v)
 	}
 	httpclient := &http.Client{
 		Timeout: h.Timeout,
@@ -92,9 +92,9 @@ func (h *HTTPClient) PostJSON(url string, jsonObject interface{}) (body []byte, 
 		return
 	}
 	for k, v := range *h.Header {
-		req.Header.Add(k, v)
+		req.Header.Set(k, v)
 	}
-	req.Header.Add("Content-Type", "application/json")
+	req.Header.Set("Content-Type", "application/json")
 
 	httpclient := &http.Client{
 		Timeout: h.Timeout,
