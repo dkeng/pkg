@@ -1,5 +1,5 @@
 # pkg
-golang package.
+golang package.
 
 # Web Framework
 1. [gin](https://github.com/gin-gonic/gin)
