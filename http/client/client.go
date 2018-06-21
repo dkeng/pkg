@@ -13,31 +13,52 @@ import (
 	"github.com/dkeng/pkg/http/header"
 )
 
+const (
+	// 默认超时
+	defaultTimeout = time.Second * 3
+)
+
 // HTTPClient Http客户端
 type HTTPClient struct {
-	Header  *header.HTTPHeader
-	Timeout time.Duration
+	Header *header.HTTPHeader
+	client *http.Client
+	// Timeout time.Duration
 }
 
 // New 创建HttpClient
 func New() *HTTPClient {
 	return &HTTPClient{
-		Header:  new(header.HTTPHeader),
-		Timeout: time.Second * 3,
+		Header: new(header.HTTPHeader),
+		// Timeout: time.Second * 3,
+		client: &http.Client{
+			Timeout: defaultTimeout,
+		},
 	}
 }
 
 // NewHTTPClient 创建HttpClient
 func NewHTTPClient(header *header.HTTPHeader) *HTTPClient {
 	return &HTTPClient{
-		Header:  header,
-		Timeout: time.Second * 3,
+		Header: header,
+		client: &http.Client{
+			Timeout: defaultTimeout,
+		},
 	}
 }
 
 // SetHeader 设置 http request header
 func (h *HTTPClient) SetHeader(header *header.HTTPHeader) {
 	h.Header = header
+}
+
+// SetTimeout 设置超时
+func (h *HTTPClient) SetTimeout(timeout time.Duration) {
+	h.client.Timeout = timeout
+}
+
+// SetTransport 设置Transport
+func (h *HTTPClient) SetTransport(transport http.RoundTripper) {
+	h.client.Transport = transport
 }
 
 // Get send get request.
@@ -52,10 +73,8 @@ func (h *HTTPClient) Get(url string, values url.Values) (body []byte, err error)
 	for k, v := range *h.Header {
 		req.Header.Set(k, v)
 	}
-	httpclient := &http.Client{
-		Timeout: h.Timeout,
-	}
-	response, err := httpclient.Do(req)
+
+	response, err := h.client.Do(req)
 	if err != nil {
 		return
 	}
@@ -71,10 +90,8 @@ func (h *HTTPClient) Post(url string, values url.Values) (body []byte, err error
 	for k, v := range *h.Header {
 		req.Header.Set(k, v)
 	}
-	httpclient := &http.Client{
-		Timeout: h.Timeout,
-	}
-	response, err := httpclient.Do(req)
+
+	response, err := h.client.Do(req)
 	if err != nil {
 		return
 	}
@@ -96,10 +113,7 @@ func (h *HTTPClient) PostJSON(url string, jsonObject interface{}) (body []byte, 
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	httpclient := &http.Client{
-		Timeout: h.Timeout,
-	}
-	response, err := httpclient.Do(req)
+	response, err := h.client.Do(req)
 	if err != nil {
 		return
 	}
