@@ -70,15 +70,9 @@ func (h *HTTPClient) Get(url string, values url.Values) (body []byte, err error)
 	if err != nil {
 		return
 	}
-	for k, v := range *h.Header {
-		req.Header.Set(k, v)
-	}
+	h.setRequestHeader(req)
 
-	response, err := h.client.Do(req)
-	if err != nil {
-		return
-	}
-	return parseResponse(response)
+	return h.do(req)
 }
 
 // Post send post request.
@@ -87,15 +81,9 @@ func (h *HTTPClient) Post(url string, values url.Values) (body []byte, err error
 	if err != nil {
 		return
 	}
-	for k, v := range *h.Header {
-		req.Header.Set(k, v)
-	}
+	h.setRequestHeader(req)
 
-	response, err := h.client.Do(req)
-	if err != nil {
-		return
-	}
-	return parseResponse(response)
+	return h.do(req)
 }
 
 // PostJSON send post request.
@@ -108,11 +96,19 @@ func (h *HTTPClient) PostJSON(url string, jsonObject interface{}) (body []byte, 
 	if err != nil {
 		return
 	}
+	h.setRequestHeader(req)
+	req.Header.Set("Content-Type", "application/json")
+	return h.do(req)
+}
+
+// setRequestHeader 设置
+func (h *HTTPClient) setRequestHeader(req *http.Request) {
 	for k, v := range *h.Header {
 		req.Header.Set(k, v)
 	}
-	req.Header.Set("Content-Type", "application/json")
+}
 
+func (h *HTTPClient) do(req *http.Request) (body []byte, err error) {
 	response, err := h.client.Do(req)
 	if err != nil {
 		return
