@@ -1,6 +1,7 @@
 package convert
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -9,11 +10,7 @@ func ToString(value interface{}) string {
 	if value == nil {
 		return ""
 	}
-	// return fmt.Sprint(value)
-	if v, ok := value.(string); ok {
-		return v
-	}
-	return ""
+	return fmt.Sprint(value)
 }
 
 // ToInt 转换成int
