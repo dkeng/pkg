@@ -1,6 +1,8 @@
 package convert
 
 import (
+	"bytes"
+	"encoding/binary"
 	"fmt"
 	"strconv"
 )
@@ -62,5 +64,26 @@ func ToFloat64(value interface{}) float64 {
 	if err != nil {
 		return 0
 	}
+	return num
+}
+
+// BytesToInt32 字节转Int32
+func BytesToInt32(data []byte) int32 {
+	var num int32
+	buffer := bytes.NewBuffer(data)
+	binary.Read(buffer, binary.BigEndian, &num)
+	return num
+}
+
+// BytesToInt 字节转Int
+func BytesToInt(data []byte) int {
+	return int(BytesToInt32(data))
+}
+
+// BytesToInt64 字节转Int64
+func BytesToInt64(data []byte) int64 {
+	var num int64
+	buffer := bytes.NewBuffer(data)
+	binary.Read(buffer, binary.BigEndian, &num)
 	return num
 }
