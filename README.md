@@ -40,3 +40,12 @@ golang package.
 # PDF
 1. [gopdf](https://github.com/signintech/gopdf)
 2. [unidoc](https://github.com/unidoc/unidoc)
+
+# HTML文档解析
+1. [goquery](https://github.com/PuerkitoBio/goquery)
+
+# XSS
+1. [bluemonday](https://github.com/microcosm-cc/bluemonday)
+
+# Markdown
+1. [Blackfriday](https://github.com/russross/blackfriday)
