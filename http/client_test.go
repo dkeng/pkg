@@ -1,4 +1,4 @@
-package client
+package http
 
 import (
 	"fmt"
@@ -7,12 +7,12 @@ import (
 )
 
 var (
-	httpClient = New()
+	httpClient = NewClient()
 )
 
 func TestGet(t *testing.T) {
 	url := "https://www.baidu.com"
-	body, err := httpClient.Get(url, nil)
+	body, _, err := httpClient.Get(url, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,7 +23,7 @@ func TestPost(t *testing.T) {
 	postURL := "https://www.baidu.com"
 	values := url.Values{}
 	values.Set("name", "keng")
-	body, err := httpClient.Post(postURL, values)
+	body, _, err := httpClient.Post(postURL, values)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -35,7 +35,7 @@ func TestPostJSON(t *testing.T) {
 	values := map[string]interface{}{
 		"name": "keng",
 	}
-	body, err := httpClient.PostJSON(postURL, values)
+	body, _, err := httpClient.PostJSON(postURL, values)
 	if err != nil {
 		t.Fatal(err)
 	}
