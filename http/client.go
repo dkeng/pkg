@@ -61,7 +61,8 @@ func (h *Client) Get(url string, values url.Values) (body []byte, statusCode int
 	if values != nil {
 		url += "?" + values.Encode()
 	}
-	req, err := http.NewRequest(http.MethodGet, url, nil)
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return
 	}
@@ -70,7 +71,8 @@ func (h *Client) Get(url string, values url.Values) (body []byte, statusCode int
 
 // Post send post request.
 func (h *Client) Post(url string, values url.Values) (body []byte, statusCode int, err error) {
-	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(values.Encode()))
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPost, url, strings.NewReader(values.Encode()))
 	if err != nil {
 		return
 	}
@@ -79,7 +81,8 @@ func (h *Client) Post(url string, values url.Values) (body []byte, statusCode in
 
 // PostData send post request.
 func (h *Client) PostData(url string, values []byte) (body []byte, statusCode int, err error) {
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(values))
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(values))
 	if err != nil {
 		return
 	}
@@ -92,7 +95,8 @@ func (h *Client) PostJSON(url string, jsonObject interface{}) (body []byte, stat
 	if err != nil {
 		return
 	}
-	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(json))
+	var req *http.Request
+	req, err = http.NewRequest(http.MethodPost, url, bytes.NewBuffer(json))
 	if err != nil {
 		return
 	}

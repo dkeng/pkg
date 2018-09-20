@@ -27,6 +27,9 @@ func WrapControllerFunction(ctlFunc func(ctx *WrapContext)) ggin.HandlerFunc {
 // Result 返回
 type Result map[string]interface{}
 
+// Model 接收model
+type Model map[string]interface{}
+
 // OKJSON 返回状态等于200的JSON
 func (w *WrapContext) OKJSON(obj interface{}) {
 	w.JSON(http.StatusOK, obj)
